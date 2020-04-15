@@ -1,6 +1,29 @@
 import requests
 import math
 
+
+def get_geo_info(city_name, type_info):
+    try:
+        url = "https://geocode-maps.yandex.ru/1.x/"
+        params = {
+            "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+            'geocode': city_name,
+            'format': 'json'
+        }
+        data = requests.get(url, params).json()
+        if type_info == 'country':
+            return data['response']['GeoObjectCollection'][
+                'featureMember'][0]['GeoObject']['metaDataProperty'][
+                'GeocoderMetaData']['AddressDetails']['Country']['CountryName']
+        elif type_info == 'coordinates':
+            coordinates_str = data['response']['GeoObjectCollection'][
+                'featureMember'][0]['GeoObject']['Point']['pos']
+            long, lat = map(float, coordinates_str.split())
+            return long, lat
+    except Exception as e:
+        return e
+
+
 def get_coordinates(city_name):
     try:
         # url, по которому доступно API Яндекс.Карт
