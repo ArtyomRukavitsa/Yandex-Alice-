@@ -24,6 +24,9 @@ cities = {
 # мы будем хранить его имя
 sessionStorage = {}
 
+@app.route('/')
+def p():
+    return 'qwerty'
 
 @app.route('/post', methods=['POST'])
 def main():
